@@ -29,4 +29,12 @@ public class File {
 
         originalFile.renameTo(processedFile);
     }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
 }
