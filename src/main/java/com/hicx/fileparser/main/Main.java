@@ -1,7 +1,7 @@
 package com.hicx.fileparser.main;
 
 public class Main {
-    private static final String PROCESSED_FOLDER = "processed";
+    public static final String PROCESSED_FOLDER = "processed";
 
     public static void main(String[] args) {
         if(args.length == 0) {
