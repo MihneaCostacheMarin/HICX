@@ -1,8 +1,6 @@
 package com.hicx.fileparser.file;
 
 import com.hicx.fileparser.main.Main;
-import org.apache.tika.Tika;
-import org.apache.tika.exception.TikaException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,19 +18,10 @@ public class FileProcessor {
     }
 
     public FileStatistics processFile() {
-        Tika tika = new Tika();
-        try {
-            String fileContent = tika.parseToString(file);
-            FileStatistics fileStatistics = calculateFileStatistics();
 
-            return fileStatistics;
-        } catch (TikaException e) {
-            System.err.println("Error processing file: " + e.getMessage());
-        } catch (IOException e) {
-            System.err.println("Error processing file: " + e.getMessage());
-        }
+        FileStatistics fileStatistics = calculateFileStatistics();
 
-        return null;
+        return fileStatistics;
     }
 
     private FileStatistics calculateFileStatistics() {
@@ -72,7 +61,7 @@ public class FileProcessor {
     public void printStatistics() {
         FileStatistics fileStatistics = processFile();
         if(Objects.nonNull(fileStatistics)) {
-            fileStatistics.toString();
+            System.out.println(fileStatistics);
         } else {
             System.out.println("Statistics cannot be displayed");
         }
