@@ -1,13 +1,13 @@
 package com.hicx.fileparser.file;
 
+import com.hicx.fileparser.main.Main;
 import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -22,7 +22,7 @@ public class FileProcessor {
     public FileStatistics processFile() {
         Tika tika = new Tika();
         try {
-            String fileContent = tika.parseToString(new java.io.File(new File(file.getFilePath()) + "/" + file.getFileName()));
+            String fileContent = tika.parseToString(file);
             FileStatistics fileStatistics = calculateFileStatistics();
 
             return fileStatistics;
@@ -43,7 +43,7 @@ public class FileProcessor {
         String mostFreqWord = "";
         int maxFreq = 0;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(new File(file.getFilePath()))))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while((line = reader.readLine()) != null) {
                 String[] words = line.split("\\s+");
@@ -76,5 +76,19 @@ public class FileProcessor {
         } else {
             System.out.println("Statistics cannot be displayed");
         }
+    }
+
+    public void moveToProcessed() {
+        String processedDirPath = file.getPath().substring(0, file.getPath().lastIndexOf(File.separator) + 1) + Main.PROCESSED_FOLDER;
+        File processedDirectory = new File(processedDirPath);
+
+        if (!processedDirectory.exists()) {
+            processedDirectory.mkdir();
+        }
+
+        File originalFile = new File(file.getPath());
+        File processedFile = new File(processedDirPath + File.separator + file.getName());
+
+        originalFile.renameTo(processedFile);
     }
 }
