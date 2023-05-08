@@ -12,6 +12,7 @@ public class LocalFileDataSource implements DataSource {
     private int currentIndex = 0;
 
     public LocalFileDataSource(File[] files) {
+        System.out.println("just for testing");
         this.files = files;
     }
 
